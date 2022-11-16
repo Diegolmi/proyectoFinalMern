@@ -1,22 +1,40 @@
-import React from 'react'
-import { Card, Button } from 'react-bootstrap'
+import React from "react";
+import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import GetProductos from "../helpers/GetProductos";
 
 const Tarjetas = () => {
+  const [productos, setProductos] = React.useState([]);
+
+  const updateProductos = () => {
+    GetProductos().then((data) => {
+      setProductos(data);
+    });
+  };
+
+  React.useEffect(() => {
+    updateProductos();
+  }, []);
+
   return (
     <>
-     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
+      <Container>
+        <Row>
+          {productos.map((producto) => (
+            <Col xs={12} md={4} lg={3} key={producto.id}>
+              <Card style={{ width: "18rem" }}>
+                <Card.Img variant="top" src={producto.imagenProducto} />
+                <Card.Body>
+                  <Card.Title>{producto.nombreProducto}</Card.Title>
+                  <Card.Text>{producto.descripcionProducto}</Card.Text>
+                  <Button variant="primary">Comprar</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </>
-  )
-}
+  );
+};
 
-export default Tarjetas
+export default Tarjetas;
