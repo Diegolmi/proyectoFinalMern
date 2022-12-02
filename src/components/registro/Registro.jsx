@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Form, Button} from 'react-bootstrap'
 import Swal from "sweetalert2";
-
+import { funcionRegistro } from "../../api/registro.api";
 const Registro = () => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -9,19 +9,24 @@ const Registro = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // TAREA: Crear un estado para el campo de confirmar contraseña
-  // Validar que la contraseña y la confirmación sean iguales
-    // Mostrar un mensaje de error si no son iguales
-    // Mostrar un mensaje de éxito si son iguales
-    // Limpiar los campos 
-    // Validaciones con expresiones regulares
-    // /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/
 
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(email, password);
-    if (email === "a@a.com" && password === "123456") {
+     e.preventDefault();
+
+     const data = {
+        name,
+        lastName,
+        email,
+        password,
+        confirmPassword
+      }
+
+      const response = funcionRegistro(data);
+      console.log(response);
+
+
+    if (response.status === 200) {
       Swal.fire({
         icon: "success",
         title: "Registrado",
@@ -31,7 +36,7 @@ const Registro = () => {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Usuario o contraseña incorrectos",
+        text: "hay algun error en tu registro",
       });
     }
   };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
+import { funcionLogin } from "../../api/login.api"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -8,13 +9,20 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
-    if (email === "a@a.com" && password === "123456") {
+    const login = {
+      email,
+      password,
+    }
+    const response = funcionLogin(login);
+    console.log(response);
+    if (response.auth === true) {
       Swal.fire({
         icon: "success",
         title: "Bienvenido",
         text: "Ingreso exitoso",
-      });
+      }, setTimeout(() => {
+        window.location.href = "/home";
+        }, 2000));;
     } else {
       Swal.fire({
         icon: "error",
@@ -55,3 +63,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
